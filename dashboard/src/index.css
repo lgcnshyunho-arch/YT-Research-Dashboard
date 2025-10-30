@@ -3,7 +3,9 @@ html, body, #root { height: 100%; }
 
 body {
   margin: 0;
-  background: #EFEAE2; /* ▶ 원하는 여백(거터) 색상 */
+  background: #f5f7fb; /* 밝은 라이트 톤 배경 */
+  color: #0f172a;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", "Pretendard Variable", "Pretendard", "맑은 고딕", sans-serif;
 }
 
 /* 상단 컨트롤 바 */
@@ -57,10 +59,11 @@ body {
   .insight-grid { grid-template-columns: 1fr 1fr; }
 }
 .insight-block {
-  background: #fff;
-  border: 1px solid #eee;
+  background: rgba(255,255,255,0.9);
+  border: 1px solid rgba(15,23,42,0.08);
   border-radius: 12px;
   padding: 14px 16px;
+  box-shadow: 0 8px 18px rgba(15,23,42,0.06);
 }
 .insight-h {
   margin: 0 0 10px;
@@ -72,24 +75,25 @@ body {
   border-collapse: collapse;
 }
 .insight-table td {
-  border-top: 1px dashed #e8e8e8;
+  border-top: 1px dashed #e6eaf0;
   padding: 8px 10px;
   vertical-align: top;
   line-height: 1.5;
 }
 .insight-table tr:first-child td { border-top: none; }
 .insight-table td.num {
-  color: #666;
+  color: #64748b;
   text-align: center;
   font-variant-numeric: tabular-nums;
 }
-.insight-table td.txt { color: #222; }
+.insight-table td.txt { color: #0f172a; }
 .insight-raw {
-  background: #fff;
-  border: 1px solid #eee;
+  background: rgba(255,255,255,0.9);
+  border: 1px solid rgba(15,23,42,0.08);
   border-radius: 12px;
   padding: 14px 16px;
   white-space: pre-wrap;
   line-height: 1.6;
+  box-shadow: 0 8px 18px rgba(15,23,42,0.06);
 }
 

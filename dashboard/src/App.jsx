@@ -7,22 +7,33 @@ import {
 
 /* ================= Theme ================= */
 const theme = {
+  // 밝은 화이트 베이스에 매우 옅은 블루-그레이 그라데이션
   bgGradient:
-    'linear-gradient(135deg, #ecf2ff 0%, #f7f7ff 35%, #f9fbff 60%, #f0f6ff 100%)',
-  card: 'rgba(255,255,255,0.78)',
-  border: 'rgba(20, 28, 58, 0.08)',
-  text: '#101827',
-  sub: '#6b7280',
-  primary: '#EA1917',
-  primaryHover: '#c70a0aff',
-  ring: 'rgba(79,70,229,0.35)',
-  chipBg: '#eef2ff',
-  chipText: '#3730a3',
-  tableHead: '#f5f7fb',
-  tableStripe: '#fafbff',
+    'linear-gradient(135deg, #f6f8fb 0%, #fafbff 40%, #f5f9ff 100%)',
+  // 반투명 화이트 카드
+  card: 'rgba(255,255,255,0.9)',
+  // 연회색 경계선
+  border: 'rgba(15, 23, 42, 0.08)',
+  // 진한 남색 텍스트
+  text: '#0f172a',
+  // 서브 텍스트
+  sub: '#64748b',
+  // 포인트 컬러: 민트/청록 계열
+  primary: '#10b981',
+  primaryHover: '#0ea371',
+  // 포커스 링도 민트톤
+  ring: 'rgba(16,185,129,0.35)',
+  // 배지/칩 색상 (부드러운 민트 배경 + 진한 청록 텍스트)
+  chipBg: '#e6f9f3',
+  chipText: '#0f766e',
+  // 테이블 톤 다운 헤더/스트라이프
+  tableHead: '#f3f6fa',
+  tableStripe: '#fbfcfe',
+  // 경고 색상은 살짝 톤다운 레드
   danger: '#b91c1c',
-  shadow: '0 10px 30px rgba(16,24,39,0.08)',
-  shadowHover: '0 16px 40px rgba(16,24,39,0.12)',
+  // 그림자 얇고 부드럽게
+  shadow: '0 10px 20px rgba(15,23,42,0.06)',
+  shadowHover: '0 16px 28px rgba(15,23,42,0.10)',
 };
 
 /* ========== fetch 헬퍼 (기본 90초 타임아웃) ========== */
@@ -95,7 +106,7 @@ const Button = ({ children, variant='primary', iconLeft, iconRight, ...rest }) =
       background: theme.primary, color:'#fff', boxShadow: theme.shadow,
     },
     secondary: {
-      background: '#eef0f6', color: theme.text, boxShadow:'none',
+      background: '#eef2f6', color: theme.text, boxShadow:'none',
     }
   };
   const style = { ...base, ...variants[variant] };
@@ -113,7 +124,16 @@ const Button = ({ children, variant='primary', iconLeft, iconRight, ...rest }) =
   );
 };
 const Chip = ({ children }) => (
-  <span style={{ background: theme.chipBg, color: theme.chipText, padding:'6px 10px', borderRadius:999, fontWeight:600, fontSize:12 }}>
+  <span style={{
+    background: `linear-gradient(180deg, ${theme.chipBg} 0%, #ffffff 100%)`,
+    color: theme.chipText,
+    padding: '6px 10px',
+    borderRadius: 999,
+    fontWeight: 600,
+    fontSize: 12,
+    border: `1px solid ${theme.border}`,
+    boxShadow: '0 1px 0 rgba(255,255,255,0.8) inset'
+  }}>
     {children}
   </span>
 );
@@ -375,10 +395,12 @@ export default function App() {
           display:'flex', alignItems:'center', justifyContent:'space-between' }}>
           <div style={{ display:'flex', alignItems:'center', gap:10 }}>
             <div style={{
-              width:36, height:36, borderRadius:10,
-              background: theme.primary, color:'#fff', display:'grid', placeItems:'center',
-              boxShadow: theme.shadow
-            }}>▶</div>
+              width:38, height:38, borderRadius:12,
+              background: `radial-gradient(70% 70% at 30% 30%, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0) 100%), ${theme.primary}`,
+              color:'#fff', display:'grid', placeItems:'center',
+              boxShadow: theme.shadow,
+              border: `1px solid ${theme.border}`
+            }}>✦</div>
             <div>
               <div style={{ fontWeight:900, letterSpacing:0.2 }}>YouTube Intelligence Dashboard</div>
               <div style={{ fontSize:12, color: theme.sub }}>채널/키워드 트래킹 · 업로드/성과 분석 · AI 인사이트</div>
