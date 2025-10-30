@@ -1,0 +1,95 @@
+/* 전체 페이지가 최소 화면 높이를 갖도록 */
+html, body, #root { height: 100%; }
+
+body {
+  margin: 0;
+  background: #EFEAE2; /* ▶ 원하는 여백(거터) 색상 */
+}
+
+/* 상단 컨트롤 바 */
+.topbar {
+  display: grid;
+  grid-template-columns: 1fr 160px auto; /* 데스크톱: 3열 */
+  gap: 40px;
+  align-items: end;
+  margin-bottom: 12px;
+}
+
+.topbar .channel input,
+.topbar .days input {
+  width: 100%;
+}
+
+.topbar .actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  flex-wrap: wrap; /* 버튼도 줄바꿈 허용 */
+}
+
+/* 태블릿: 2열 (버튼은 다음 줄로) */
+@media (max-width: 1024px) {
+  .topbar {
+    grid-template-columns: 1fr 180px;
+  }
+  .topbar .actions {
+    grid-column: 1 / -1;   /* 가로 전체 차지 */
+    justify-content: flex-start;
+  }
+}
+
+/* 모바일: 1열 스택 */
+@media (max-width: 640px) {
+  .topbar {
+    grid-template-columns: 1fr;
+  }
+  .topbar .actions {
+    grid-column: 1;
+  }
+}
+/* --- AI 인사이트 테이블 --- */
+.insight-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+@media (min-width: 900px) {
+  .insight-grid { grid-template-columns: 1fr 1fr; }
+}
+.insight-block {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+.insight-h {
+  margin: 0 0 10px;
+  font-size: 15px;
+  font-weight: 700;
+}
+.insight-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.insight-table td {
+  border-top: 1px dashed #e8e8e8;
+  padding: 8px 10px;
+  vertical-align: top;
+  line-height: 1.5;
+}
+.insight-table tr:first-child td { border-top: none; }
+.insight-table td.num {
+  color: #666;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+.insight-table td.txt { color: #222; }
+.insight-raw {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  padding: 14px 16px;
+  white-space: pre-wrap;
+  line-height: 1.6;
+}
+

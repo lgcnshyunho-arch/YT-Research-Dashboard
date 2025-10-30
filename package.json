@@ -1,0 +1,29 @@
+{
+  "name": "social-media-research",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "YouTube ingestion & metrics API (Express + SQLite)",
+  "main": "server/yt.js",
+  "scripts": {
+    "start": "node server/yt.js",
+    "dev": "node server/yt.js",
+    "dev:both": "concurrently \"npm run dev\" \"npm --prefix dashboard run dev\""
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "better-sqlite3": "^12.2.0",
+    "cors": "^2.8.5",
+    "dayjs": "^1.11.18",
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0",
+    "googleapis": "^159.0.0",
+    "openai": "^5.20.1"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
