@@ -96,6 +96,14 @@ app.use(cors({
   }
 }));
 
+// 기본 루트 및 헬스체크
+app.get('/', (req, res) => {
+  res.type('text/plain').send('YT API running');
+});
+app.get('/healthz', (req, res) => {
+  res.json({ ok: true, time: new Date().toISOString() });
+});
+
 /* =========================
    채널 식별/메타
    ========================= */

@@ -10,8 +10,6 @@ services:
     envVars:
       - key: NODE_VERSION
         value: 20
-      - key: PORT
-        value: 8820
       - key: DATA_DIR
         value: /opt/render/project/src/data
       # 아래 키들은 Render 대시보드에서 안전하게 설정하세요
