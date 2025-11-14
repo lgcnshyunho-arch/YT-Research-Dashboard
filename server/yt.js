@@ -248,17 +248,13 @@ function makeMetricsFromChannel(db, channelId, days = 90) {
   const ch = db.channels[channelId];
   if (!ch) return { byDay: {}, rows: [], top: [], total: 0 };
 
-  const cutoff = dayjs().subtract(days, 'day').startOf('day');
+  // ★ days 필터링 제거: 프론트엔드에서 필터링하므로 서버는 모든 데이터 반환
   const rows = Object.values(ch.videos || {})
-    .filter((v) => dayjs(v.publishedAt).isAfter(cutoff))
     .sort((a, b) => a.publishedAt.localeCompare(b.publishedAt));
 
+  // 프론트엔드에서 days로 필터링하므로, 여기서는 빈 객체 반환 (사용 안 함)
   const byDay = {};
-  for (const v of rows) {
-    const d = v.publishedAt.slice(0, 10);
-    byDay[d] = (byDay[d] || 0) + 1;
-  }
-  const top = rows.slice().sort((a, b) => b.views - a.views).slice(0, 10);
+  const top = [];
   return { byDay, rows, top, total: rows.length };
 }
 
@@ -502,7 +498,7 @@ app.post('/api/yt/ingest', async (req, res) => {
 /** 채널 메트릭(저장소에서 계산) */
 app.get('/api/yt/metrics-by-handle', async (req, res) => {
   try {
-    const days = Number(req.query.days || 90);
+    // ★ days 파라미터는 무시: 프론트엔드에서 필터링하므로 서버는 모든 데이터 반환
     const channelIdQ = req.query.channelId ? String(req.query.channelId) : null;
     const handle = req.query.handle ? String(req.query.handle) : null;
 
@@ -510,7 +506,7 @@ app.get('/api/yt/metrics-by-handle', async (req, res) => {
     if (!channelId) return res.json({ byDay: {}, rows: [], top: [], total: 0 });
 
     const db = loadDB();
-    res.json(makeMetricsFromChannel(db, channelId, days));
+    res.json(makeMetricsFromChannel(db, channelId));
   } catch (e) {
     res.status(500).json({ error: e.message || String(e) });
   }

@@ -3,9 +3,9 @@ html, body, #root { height: 100%; }
 
 body {
   margin: 0;
-  background: #f5f7fb; /* 밝은 라이트 톤 배경 */
-  color: #0f172a;
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", "Pretendard Variable", "Pretendard", "맑은 고딕", sans-serif;
+  background: #fafafa; /* 밝은 흰색 배경 */
+  color: #1f2937;
+  font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "맑은 고딕", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
 }
 
 /* 상단 컨트롤 바 */
@@ -95,5 +95,83 @@ body {
   white-space: pre-wrap;
   line-height: 1.6;
   box-shadow: 0 8px 18px rgba(15,23,42,0.06);
+}
+
+/* AI 인사이트 테이블 내 볼드체 스타일 */
+table strong {
+  font-weight: 700;
+  color: #1f2937;
+}
+
+/* 반응형 레이아웃 개선 */
+@media (max-width: 768px) {
+  main {
+    padding: 0 16px !important;
+    gap: 12px !important;
+  }
+  
+  /* 컨트롤 바 그리드 조정 */
+  .control-grid {
+    display: flex !important;
+    flex-direction: column;
+    gap: 8px !important;
+  }
+  
+  .control-grid > div {
+    width: 100%;
+  }
+  
+  /* 채널 핸들 + 채널 확인 간격 줄이기 */
+  .control-grid > div:nth-child(2) {
+    margin-top: -4px;
+  }
+  
+  /* 채널 확인 + 지표 기간 간격 넓히기 */
+  .control-grid > div:nth-child(3) {
+    margin-top: 16px;
+  }
+  
+  /* 수집 시작 날짜 + 수집 실행 간격 줄이기 */
+  .control-grid > div:nth-child(5) {
+    margin-top: 4px;
+  }
+  
+  /* 2열 레이아웃을 1열로 */
+  .two-column-grid {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+  
+  /* 버튼 그룹 스택 */
+  .button-group {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .button-group > * {
+    width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  main {
+    padding: 0 12px !important;
+    gap: 12px !important;
+    margin: 16px auto 60px !important;
+  }
+  
+  header > div {
+    padding: 12px 16px !important;
+  }
+  
+  /* 카드 패딩 조정 */
+  .card-content {
+    padding: 16px !important;
+  }
+  
+  /* 테이블 스크롤 */
+  .table-container {
+    overflow-x: auto;
+  }
 }
 

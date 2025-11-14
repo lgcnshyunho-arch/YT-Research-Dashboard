@@ -7,33 +7,32 @@ import {
 
 /* ================= Theme ================= */
 const theme = {
-  // 밝은 화이트 베이스에 매우 옅은 블루-그레이 그라데이션
-  bgGradient:
-    'linear-gradient(135deg, #f6f8fb 0%, #fafbff 40%, #f5f9ff 100%)',
-  // 반투명 화이트 카드
-  card: 'rgba(255,255,255,0.9)',
-  // 연회색 경계선
-  border: 'rgba(15, 23, 42, 0.08)',
-  // 진한 남색 텍스트
-  text: '#0f172a',
+  // 밝은 흰색 배경 (그라데이션 제거)
+  bgGradient: '#fafafa',
+  // 순수 화이트 카드
+  card: '#ffffff',
+  // 옅은 회색 경계선
+  border: 'rgba(0, 0, 0, 0.06)',
+  // 진한 회색 텍스트
+  text: '#1f2937',
   // 서브 텍스트
-  sub: '#64748b',
-  // 포인트 컬러: 민트/청록 계열
-  primary: '#10b981',
-  primaryHover: '#0ea371',
-  // 포커스 링도 민트톤
-  ring: 'rgba(16,185,129,0.35)',
-  // 배지/칩 색상 (부드러운 민트 배경 + 진한 청록 텍스트)
-  chipBg: '#e6f9f3',
-  chipText: '#0f766e',
-  // 테이블 톤 다운 헤더/스트라이프
-  tableHead: '#f3f6fa',
-  tableStripe: '#fbfcfe',
-  // 경고 색상은 살짝 톤다운 레드
-  danger: '#b91c1c',
-  // 그림자 얇고 부드럽게
-  shadow: '0 10px 20px rgba(15,23,42,0.06)',
-  shadowHover: '0 16px 28px rgba(15,23,42,0.10)',
+  sub: '#6b7280',
+  // 포인트 컬러: 블루 계열
+  primary: '#3b82f6',
+  primaryHover: '#2563eb',
+  // 포커스 링 블루톤
+  ring: 'rgba(59, 130, 246, 0.3)',
+  // 배지/칩 색상 (중립적인 회색/블루 톤)
+  chipBg: '#f3f4f6',
+  chipText: '#374151',
+  // 테이블 헤더/스트라이프
+  tableHead: '#f9fafb',
+  tableStripe: '#ffffff',
+  // 경고 색상
+  danger: '#ef4444',
+  // 그림자 더 부드럽고 얇게
+  shadow: '0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.1)',
+  shadowHover: '0 4px 6px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(0, 0, 0, 0.1)',
 };
 
 /* ========== fetch 헬퍼 (기본 90초 타임아웃) ========== */
@@ -82,31 +81,38 @@ function Spinner({ size = 16 }) {
 const Input = (props) => (
   <input {...props}
     style={{
-      width:'100%', padding:'12px 14px',
-      borderRadius:12, border:`1px solid ${theme.border}`,
-      outline:'none', background:'rgba(255,255,255,0.9)',
-      boxShadow:'inset 0 1px 0 rgba(255,255,255,0.6)',
-      transition:'box-shadow .2s, border-color .2s, transform .06s',
+      width:'100%', padding:'10px 12px',
+      borderRadius:8, border:`1px solid ${theme.border}`,
+      outline:'none', background:'#ffffff',
+      fontSize:14,
+      transition:'all 0.2s ease',
       ...props.style
     }}
-    onFocus={(e)=>{ e.target.style.boxShadow = `0 0 0 6px ${theme.ring}`; e.target.style.borderColor = theme.primary; }}
-    onBlur={(e)=>{ e.target.style.boxShadow = 'inset 0 1px 0 rgba(255,255,255,0.6)'; e.target.style.borderColor = theme.border; }}
+    onFocus={(e)=>{ 
+      e.target.style.boxShadow = `0 0 0 3px ${theme.ring}`; 
+      e.target.style.borderColor = theme.primary; 
+    }}
+    onBlur={(e)=>{ 
+      e.target.style.boxShadow = 'none'; 
+      e.target.style.borderColor = theme.border; 
+    }}
   />
 );
 const Button = ({ children, variant='primary', iconLeft, iconRight, ...rest }) => {
   const base = {
     display:'inline-flex', alignItems:'center', gap:8,
-    padding:'12px 16px', borderRadius:12, border:'none',
-    cursor:'pointer', fontWeight:700, fontSize:14,
-    transition:'transform .06s ease, box-shadow .2s ease, background .2s ease',
-    willChange:'transform',
+    padding:'10px 16px', borderRadius:8, border:'none',
+    cursor:'pointer', fontWeight:600, fontSize:14,
+    transition:'all 0.2s ease',
+    letterSpacing:'-0.01em',
   };
   const variants = {
     primary: {
       background: theme.primary, color:'#fff', boxShadow: theme.shadow,
     },
     secondary: {
-      background: '#eef2f6', color: theme.text, boxShadow:'none',
+      background: '#f3f4f6', color: theme.text, boxShadow:'none',
+      border: `1px solid ${theme.border}`,
     }
   };
   const style = { ...base, ...variants[variant] };
@@ -116,8 +122,23 @@ const Button = ({ children, variant='primary', iconLeft, iconRight, ...rest }) =
       style={style}
       onMouseDown={(e)=>{ e.currentTarget.style.transform = 'translateY(1px)'; }}
       onMouseUp={(e)=>{ e.currentTarget.style.transform = 'translateY(0)'; }}
-      onMouseEnter={(e)=>{ if(variant==='primary'){ e.currentTarget.style.background = theme.primaryHover; e.currentTarget.style.boxShadow = theme.shadowHover; } }}
-      onMouseLeave={(e)=>{ if(variant==='primary'){ e.currentTarget.style.background = theme.primary; e.currentTarget.style.boxShadow = theme.shadow; } e.currentTarget.style.transform='translateY(0)'; }}
+      onMouseEnter={(e)=>{ 
+        if(variant==='primary'){ 
+          e.currentTarget.style.background = theme.primaryHover; 
+          e.currentTarget.style.boxShadow = theme.shadowHover; 
+        } else {
+          e.currentTarget.style.background = '#e5e7eb';
+        }
+      }}
+      onMouseLeave={(e)=>{ 
+        if(variant==='primary'){ 
+          e.currentTarget.style.background = theme.primary; 
+          e.currentTarget.style.boxShadow = theme.shadow; 
+        } else {
+          e.currentTarget.style.background = '#f3f4f6';
+        }
+        e.currentTarget.style.transform='translateY(0)'; 
+      }}
     >
       {iconLeft}{children}{iconRight}
     </button>
@@ -125,14 +146,14 @@ const Button = ({ children, variant='primary', iconLeft, iconRight, ...rest }) =
 };
 const Chip = ({ children }) => (
   <span style={{
-    background: `linear-gradient(180deg, ${theme.chipBg} 0%, #ffffff 100%)`,
+    background: theme.chipBg,
     color: theme.chipText,
-    padding: '6px 10px',
-    borderRadius: 999,
-    fontWeight: 600,
+    padding: '6px 12px',
+    borderRadius: 6,
+    fontWeight: 500,
     fontSize: 12,
     border: `1px solid ${theme.border}`,
-    boxShadow: '0 1px 0 rgba(255,255,255,0.8) inset'
+    letterSpacing: '-0.01em',
   }}>
     {children}
   </span>
@@ -140,16 +161,15 @@ const Chip = ({ children }) => (
 const Card = ({ title, actions, children, style }) => (
   <div style={{
     border:`1px solid ${theme.border}`,
-    borderRadius:16,
+    borderRadius:12,
     background: theme.card,
-    backdropFilter:'blur(8px)',
     boxShadow: theme.shadow,
-    padding:16,
+    padding:20,
     ...style
   }}>
     {(title || actions) && (
-      <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:10 }}>
-        <div style={{ fontWeight:800, letterSpacing:0.2 }}>{title}</div>
+      <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:12 }}>
+        <div style={{ fontWeight:700, fontSize:15, letterSpacing:'-0.01em', color: theme.text }}>{title}</div>
         <div style={{ display:'flex', gap:8 }}>{actions}</div>
       </div>
     )}
@@ -158,6 +178,22 @@ const Card = ({ title, actions, children, style }) => (
 );
 
 /* ========== Insight Parser ========== */
+/** 마크다운 제거하고 볼드체만 유지 */
+function cleanMarkdown(text) {
+  if (!text) return '';
+  return text
+    // **볼드** -> <strong>볼드</strong>로 변환 (나중에 렌더링)
+    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+    .replace(/__([^_]+)__/g, '<strong>$1</strong>')
+    // 나머지 마크다운 제거
+    .replace(/#{1,6}\s+/g, '')  // 헤더 제거
+    .replace(/\[([^\]]+)\]\([^\)]+\)/g, '$1')  // 링크 제거
+    .replace(/`([^`]+)`/g, '$1')  // 인라인 코드 제거
+    .replace(/\*([^*<]+)\*/g, '$1')  // 이탤릭 제거 (이미 변환된 <strong>은 제외)
+    .replace(/~~([^~]+)~~/g, '$1')  // 취소선 제거
+    .trim();
+}
+
 /** LLM 텍스트 → [{title, bullets[]}] */
 function parseInsightText(text = '') {
   const out = [];
@@ -167,7 +203,7 @@ function parseInsightText(text = '') {
   const re = /(^|\n)##\s*([^\n]+)\n+([\s\S]*?)(?=\n##\s|$)/g;
   let m;
   while ((m = re.exec(text)) !== null) {
-    const title = m[2].trim();
+    const title = cleanMarkdown(m[2].trim());
     const body = m[3] || '';
     const bullets = [];
 
@@ -179,7 +215,7 @@ function parseInsightText(text = '') {
       if (!cleaned) return;
       // 번호 접두(1), 2) …) 제거
       const normalized = cleaned.replace(/^\d+\)?\s*[.)-]\s*/,'').trim();
-      if (normalized) bullets.push(normalized);
+      if (normalized) bullets.push(cleanMarkdown(normalized));
     });
 
     if (bullets.length) out.push({ title, bullets });
@@ -190,7 +226,8 @@ function parseInsightText(text = '') {
     const bullets = text
       .split('\n')
       .map(s => s.replace(/^\s*[-*•]+(\s*|\s*\+\+)?\s*/,'').trim())
-      .filter(Boolean);
+      .filter(Boolean)
+      .map(cleanMarkdown);
     if (bullets.length) out.push({ title: '요약', bullets });
   }
   return out;
@@ -292,6 +329,11 @@ export default function App() {
       });
       if (r.error) throw new Error(r.error);
       await loadMetrics();
+      // 수집 완료 후 인사이트 초기화
+      setChInsight('');
+      setKwInsight('');
+      setParsedSections([]);
+      setShowRaw(false);
     } catch (e) {
       setError(String(e));
     } finally {
@@ -388,225 +430,198 @@ export default function App() {
     }}>
       <header style={{
         position:'sticky', top:0, zIndex:5,
-        background:'rgba(255,255,255,0.65)', backdropFilter:'blur(8px)',
+        background:'rgba(255,255,255,0.8)', backdropFilter:'blur(12px)',
         borderBottom:`1px solid ${theme.border}`,
+        boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
       }}>
-        <div style={{ maxWidth:1200, margin:'0 auto', padding:'14px 16px',
+        <div style={{ maxWidth:1200, margin:'0 auto', padding:'16px 20px',
           display:'flex', alignItems:'center', justifyContent:'space-between' }}>
-          <div style={{ display:'flex', alignItems:'center', gap:10 }}>
+          <div style={{ display:'flex', alignItems:'center', gap:12 }}>
             <div style={{
-              width:38, height:38, borderRadius:12,
-              background: `radial-gradient(70% 70% at 30% 30%, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0) 100%), ${theme.primary}`,
-              color:'#fff', display:'grid', placeItems:'center',
+              width:40, height:40, borderRadius:12,
+              background: '#ffffff',
+              display:'grid', placeItems:'center',
               boxShadow: theme.shadow,
-              border: `1px solid ${theme.border}`
-            }}>✦</div>
+              padding: 7,
+              overflow: 'hidden'
+            }}>
+              <img src="/vite.svg" alt="Logo" style={{ width:'100%', height:'100%', objectFit:'contain' }} />
+            </div>
             <div>
-              <div style={{ fontWeight:900, letterSpacing:0.2 }}>YouTube Intelligence Dashboard</div>
-              <div style={{ fontSize:12, color: theme.sub }}>채널/키워드 트래킹 · 업로드/성과 분석 · AI 인사이트</div>
+              <div style={{ fontWeight:700, fontSize:16, letterSpacing:'-0.01em', color: theme.text }}>YouTube Intelligence Dashboard</div>
+              <div style={{ fontSize:12, color: theme.sub, marginTop:2 }}>채널/키워드 트래킹 · 업로드/성과 분석 · AI 인사이트</div>
             </div>
           </div>
-          <div style={{ fontSize:12, color: theme.sub }}>since {dayjs().format('YYYY.MM.DD')}</div>
+          <div style={{ fontSize:12, color: theme.sub, fontWeight:500 }}>since {dayjs().format('YYYY.MM.DD')}</div>
         </div>
       </header>
 
-      <main style={{ maxWidth:1200, margin:'20px auto 64px', padding:'0 16px', display:'grid', gap:12 }}>
+      <main style={{ maxWidth:1200, margin:'24px auto 80px', padding:'0 20px', display:'grid', gap:16 }}>
         {/* 컨트롤 바 */}
-        <Card style={{ padding:14 }}>
-          <div style={{
-            display:'grid',
-            gridTemplateColumns:'auto 1fr 160px auto',
-            gap:12,
-            alignItems:'end'
+        <Card>
+          <div className="control-grid" style={{
+            display:'flex',
+            flexWrap:'wrap',
+            gap:20,
+            alignItems:'flex-end'
           }}>
-            {/* 탭 */}
-            <div style={{ display:'flex', gap:8 }}>
-              <Button variant={mode==='channel' ? 'primary':'secondary'} onClick={()=>switchMode('channel')}>채널</Button>
-              <Button variant={mode==='keyword' ? 'primary':'secondary'} onClick={()=>switchMode('keyword')}>키워드</Button>
+            {/* 채널 핸들 입력 */}
+            <div style={{ flex:'1 1 320px', minWidth:220 }}>
+              <div style={{ fontSize:12, color: theme.sub, marginBottom:8 }}>채널 핸들</div>
+              <Input value={handle} onChange={e=>setHandle(e.target.value)} placeholder="@brand" />
             </div>
 
-            {/* 입력 */}
-            {mode === 'channel' ? (
-              <div>
-                <div style={{ fontSize:12, color: theme.sub, marginBottom:6 }}>채널 핸들</div>
-                <Input value={handle} onChange={e=>setHandle(e.target.value)} placeholder="@brand" />
-              </div>
-            ) : (
-              <div>
-                <div style={{ fontSize:12, color: theme.sub, marginBottom:6 }}>키워드(쉼표 구분)</div>
-                <Input value={keywords} onChange={e=>setKeywords(e.target.value)} placeholder="예: LG, OLED, UltraGear" />
-              </div>
-            )}
+            {/* 채널 확인 버튼 */}
+            <div style={{ flex:'0 0 120px' }}>
+              <div style={{ fontSize:12, color: theme.sub, marginBottom:8, opacity:0 }}>확인</div>
+              <Button onClick={resolveHandle} disabled={loading} variant="secondary" style={{ 
+                width:'100%', 
+                justifyContent: loading ? 'flex-start' : 'center',
+                gap: loading ? 6 : 0
+              }}>
+                {loading ? <Spinner size={14} /> : null} 채널 확인
+              </Button>
+            </div>
 
-            {/* 기간 */}
-            <div>
-              <div style={{ fontSize:12, color: theme.sub, marginBottom:6 }}>지표 기간(일)</div>
+            {/* 지표 기간 입력 */}
+            <div style={{ flex:'0 0 160px', minWidth:140 }}>
+              <div style={{ fontSize:12, color: theme.sub, marginBottom:8 }}>지표 기간(일)</div>
               <Input type="number" min={7} max={720} value={days} onChange={e=>setDays(Number(e.target.value))} />
             </div>
 
-            {/* 액션 */}
-            <div style={{ display:'flex', gap:8, justifyContent:'flex-end' }}>
-              <Button onClick={resolveHandle} disabled={loading || mode==='keyword'} variant="secondary">
-                {loading && mode==='channel' ? <Spinner/> : null} 채널 확인
-              </Button>
-              <Button onClick={loadMetrics} disabled={loading || (mode==='keyword' && !keywords.trim())}>
-                {loading ? <Spinner/> : null} {primaryBtnLabel}
-              </Button>
-              <Button onClick={loadInsight} disabled={insightLoading || (!effectiveMetrics)}>
-                {insightLoading ? <Spinner/> : null} AI 인사이트
+            {/* 수집 시작 날짜 표시 */}
+            <div style={{ flex:'0 0 160px', minWidth:140 }}>
+              <div style={{ fontSize:12, color: theme.sub, marginBottom:8 }}>수집 시작 날짜</div>
+              <Input value={dayjs(since).format('YYYY-MM-DD')} readOnly style={{
+                cursor:'default', background:'#f9fafb', color: theme.text
+              }} />
+            </div>
+
+            {/* 수집 실행 버튼 */}
+            <div style={{ flex:'0 0 180px' }}>
+              <div style={{ fontSize:12, color: theme.sub, marginBottom:8, opacity:0 }}>실행</div>
+              <Button onClick={ingest} disabled={ingesting || !chResol} style={{ 
+                width:'100%', 
+                justifyContent: ingesting ? 'flex-start' : 'center',
+                gap: ingesting ? 6 : 0
+              }}>
+                {ingesting ? <Spinner size={14} /> : null} {ingesting ? '수집 중…' : '수집 실행'}
               </Button>
             </div>
           </div>
         </Card>
 
-        {/* 상단 2열 */}
-        <div style={{ display:'grid', gridTemplateColumns:'minmax(0, 2.2fr) minmax(320px, 1fr)', gap:12 }}>
-          {/* 좌: 채널 정보 / 검색 요약 */}
-          <Card title={mode==='channel' ? '채널 정보' : '검색 요약'}>
-            {mode === 'channel' ? (
-              chResol ? (
-                <>
-                  <div style={{ display:'flex', gap:14, alignItems:'center' }}>
-                    <img src={chResol.thumbnails?.default?.url} width={72} height={72} alt="" style={{ borderRadius:12 }}/>
-                    <div>
-                      <div style={{ fontWeight:900, fontSize:18 }}>{chResol.title}</div>
-                      <div style={{ fontSize:13, color: theme.sub }}>channelId: {chResol.channelId}</div>
-                      {chResol.stats && (
-                        <div style={{ fontSize:13, color: theme.text, marginTop:6 }}>
-                          구독자: {Number(chResol.stats.subscriberCount || 0).toLocaleString()} ·
-                          영상: {Number(chResol.stats.videoCount || 0).toLocaleString()} ·
-                          조회: {Number(chResol.stats.viewCount || 0).toLocaleString()}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  {chResol.description && (
-                    <div style={{ marginTop:12, padding:12, borderRadius:12, background:'#f7f8ff' }}>
-                      <div style={{ fontWeight:800, marginBottom:6 }}>설명</div>
-                      <div style={{ fontSize:13, whiteSpace:'pre-wrap', color: theme.text }}>
-                        {chResol.description}
-                      </div>
+        {/* 채널 정보 */}
+        <Card title="채널 정보">
+          {chResol ? (
+            <>
+              <div style={{ display:'flex', gap:14, alignItems:'center' }}>
+                <img src={chResol.thumbnails?.default?.url} width={72} height={72} alt="" style={{ borderRadius:10 }}/>
+                <div>
+                  <div style={{ fontWeight:900, fontSize:18 }}>{chResol.title}</div>
+                  <div style={{ fontSize:13, color: theme.sub }}>channelId: {chResol.channelId}</div>
+                  {chResol.stats && (
+                    <div style={{ fontSize:13, color: theme.text, marginTop:6 }}>
+                      구독자: {Number(chResol.stats.subscriberCount || 0).toLocaleString()} ·
+                      영상: {Number(chResol.stats.videoCount || 0).toLocaleString()} ·
+                      조회: {Number(chResol.stats.viewCount || 0).toLocaleString()}
                     </div>
                   )}
-                </>
-              ) : <div style={{ color: theme.sub }}>핸들을 확인해 주세요.</div>
-            ) : (
-              <>
-                <div style={{ marginBottom:10 }}>
-                  <div style={{ fontSize:13, color: theme.sub }}>키워드</div>
-                  <div style={{ display:'flex', gap:8, flexWrap:'wrap', marginTop:6 }}>
-                    {String(keywords).split(',').map(s=>s.trim()).filter(Boolean).map((k,i)=>(
-                      <Chip key={i}>{k}</Chip>
-                    ))}
+                </div>
+              </div>
+              {chResol.description && (
+                <div style={{ marginTop:12, padding:14, borderRadius:10, background: theme.tableHead }}>
+                  <div style={{ fontWeight:800, marginBottom:6 }}>설명</div>
+                  <div style={{ fontSize:13, whiteSpace:'pre-wrap', color: theme.text }}>
+                    {chResol.description}
                   </div>
                 </div>
-                {effectiveMetrics ? (
-                  <>
-                    <div style={{ fontSize:13, color: theme.text, marginBottom:8 }}>
-                      기간: 최근 {days}일 · 총 {Number(visibleRows.length || 0).toLocaleString()}건
-                    </div>
-                    {effectiveMetrics.topChannels?.length ? (
-                      <div style={{ marginTop:6 }}>
-                        <div style={{ fontWeight:800, marginBottom:6 }}>상위 채널</div>
-                        <ul style={{ margin:0, paddingLeft:18 }}>
-                          {effectiveMetrics.topChannels.map((c,i)=>(
-                            <li key={i} style={{ margin:'2px 0' }}>
-                              {c.channelTitle} · {c.count}건 · 조회 {Number(c.views).toLocaleString()}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    ) : null}
-                  </>
-                ) : (
-                  <div style={{ color: theme.sub }}>데이터가 없습니다. 먼저 “검색 실행”을 눌러 주세요.</div>
-                )}
-              </>
-            )}
-          </Card>
-
-          {/* 우: 수집/검색 실행 */}
-          <Card title={mode==='channel' ? '수집 실행 (증분)' : '검색 실행'}>
-            {mode === 'channel' ? (
-              <>
-                <div style={{ display:'flex', gap:10, alignItems:'center' }}>
-                  <Input value={since} readOnly style={{
-                    height: CONTROL_H, cursor:'default', background:'#f9fafc'
-                  }}/>
-                  <Button onClick={ingest} disabled={ingesting} style={{ height: CONTROL_H }}>
-                    {ingesting ? <Spinner/> : null} {ingesting ? '수집 중…' : '수집 실행'}
-                  </Button>
-                </div>
-                <div style={{ fontSize:12, color: theme.sub, marginTop:6 }}>
-                  지표 기간 {days}일 기준으로 자동 계산됩니다.
-                </div>
-              </>
-            ) : (
-              <Button onClick={loadMetrics} disabled={loading || !keywords.trim()} style={{ height: CONTROL_H }}>
-                {loading ? <Spinner/> : null} {primaryBtnLabel}
-              </Button>
-            )}
-          </Card>
-        </div>
+              )}
+            </>
+          ) : <div style={{ color: theme.sub }}>핸들을 확인해 주세요.</div>}
+        </Card>
 
         {/* 인사이트 */}
         <Card
           title="🧠 AI 인사이트"
           actions={
             <>
-              <Button onClick={loadInsight} disabled={insightLoading || !effectiveMetrics}>
-                {insightLoading ? <Spinner/> : null} 다시 분석
-              </Button>
-              <Button
-                variant="secondary"
-                onClick={() => {
-                  setShowRaw(v => !v);
-                }}
-                disabled={!(mode==='channel' ? chInsight : kwInsight)}
-              >
-                {showRaw ? '표 보기' : '원문 보기'}
-              </Button>
-              <Button variant="secondary" onClick={() => {
-                const text = mode==='channel' ? chInsight : kwInsight;
-                setParsedSections([]);
-                if (mode==='channel') setChInsight('');
-                else setKwInsight('');
-                setShowRaw(false);
-              }}>지우기</Button>
-              <Button variant="secondary" onClick={() => {
-                const text = mode==='channel' ? chInsight : kwInsight;
-                text && navigator.clipboard.writeText(text);
-              }} disabled={!(mode==='channel' ? chInsight : kwInsight)}>복사</Button>
+              {!insightLoading && (mode==='channel' ? chInsight : kwInsight) && (mode==='channel' ? chInsight : kwInsight) !== '분석 중…' ? (
+                <>
+                  <Button
+                    variant="secondary"
+                    onClick={() => {
+                      setShowRaw(v => !v);
+                    }}
+                  >
+                    {showRaw ? '표 보기' : '원문 보기'}
+                  </Button>
+                  <Button variant="secondary" onClick={() => {
+                    setParsedSections([]);
+                    if (mode==='channel') setChInsight('');
+                    else setKwInsight('');
+                    setShowRaw(false);
+                  }}>지우기</Button>
+                  <Button variant="secondary" onClick={() => {
+                    const text = mode==='channel' ? chInsight : kwInsight;
+                    text && navigator.clipboard.writeText(text);
+                  }}>복사</Button>
+                  <Button onClick={loadInsight} disabled={insightLoading || !effectiveMetrics}>
+                    {insightLoading ? <Spinner/> : null} 다시 분석
+                  </Button>
+                </>
+              ) : (
+                <Button onClick={loadInsight} disabled={insightLoading || !effectiveMetrics}>
+                  {insightLoading ? <Spinner/> : null} AI 인사이트
+                </Button>
+              )}
             </>
           }
           style={{ scrollMarginTop: 90 }}
         >
           {/* 표 / 원문 토글 */}
           {showRaw || !parsedSections.length ? (
-            <pre ref={insightRef} style={{
-              whiteSpace:'pre-wrap', fontSize:14, lineHeight:1.7, margin:0, color: theme.text
+            <div ref={insightRef} style={{
+              whiteSpace:'pre-wrap', fontSize:14, lineHeight:1.7, margin:0, color: theme.text,
+              fontFamily: 'inherit'
             }}>
               {(mode==='channel' ? chInsight : kwInsight) || '“AI 인사이트” 버튼을 눌러 요약을 생성하세요.'}
-            </pre>
+            </div>
           ) : (
-            <div ref={insightRef} style={{ display:'grid', gap:12 }}>
+            <div ref={insightRef} style={{ display:'grid', gap:16 }}>
               {parsedSections.map((sec, sIdx) => (
                 <div key={sIdx} style={{ border:`1px solid ${theme.border}`, borderRadius:12, overflow:'hidden' }}>
-                  <div style={{ padding:'10px 12px', fontWeight:800, background: theme.tableHead }}>
+                  <div style={{ 
+                    padding:'14px 16px', 
+                    fontWeight:700, 
+                    fontSize:16, 
+                    background: theme.tableHead, 
+                    color: theme.text,
+                    letterSpacing:'-0.01em'
+                  }}>
                     {sec.title}
                   </div>
                   <table style={{ width:'100%', borderCollapse:'collapse' }}>
                     <thead>
                       <tr>
-                        <th style={thSmall}>#</th>
+                        <th style={{ ...thSmall, width:40 }}>#</th>
                         <th style={th}>핵심 포인트</th>
                       </tr>
                     </thead>
                     <tbody>
                       {sec.bullets.map((b, i) => (
                         <tr key={i} style={{ background: i % 2 ? theme.tableStripe : '#fff' }}>
-                          <td style={{ ...tdSmall, width:64 }}>{i+1}</td>
-                          <td style={td}>{b}</td>
+                          <td style={{ 
+                            ...tdSmall, 
+                            width:40, 
+                            color: theme.sub,
+                            textAlign:'center',
+                            padding:'12px 8px'
+                          }}>{i+1}</td>
+                          <td style={{
+                            ...td,
+                            lineHeight:1.6
+                          }} dangerouslySetInnerHTML={{ __html: b }} />
                         </tr>
                       ))}
                     </tbody>
@@ -614,7 +629,7 @@ export default function App() {
                 </div>
               ))}
               {!parsedSections.length && (
-                <div style={{ color: theme.sub }}>표로 변환할 항목이 없습니다. “원문 보기”로 확인하세요.</div>
+                <div style={{ color: theme.sub }}>표로 변환할 항목이 없습니다. "원문 보기"로 확인하세요.</div>
               )}
             </div>
           )}
@@ -641,7 +656,7 @@ export default function App() {
         </Card>
 
         {/* TOP10 / 최근 업로드 */}
-        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12 }}>
+        <div className="two-column-grid" style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:16 }}>
           <Card title="TOP 10 (조회수)">
             <div style={{ display:'grid', gap:10 }}>
               {top.map(v => (
@@ -716,7 +731,20 @@ export default function App() {
 }
 
 /* ========== table styles ========== */
-const th = { textAlign:'left', borderBottom:`1px solid ${theme.border}`, padding:'10px 12px', fontSize:12, fontWeight:800, color: theme.sub };
+const th = { 
+  textAlign:'left', 
+  borderBottom:`1px solid ${theme.border}`, 
+  padding:'12px 16px', 
+  fontSize:12, 
+  fontWeight:600, 
+  color: theme.sub,
+  letterSpacing:'-0.01em'
+};
 const thSmall = { ...th, width: 96, whiteSpace:'nowrap' };
-const td = { borderBottom:`1px solid ${theme.border}`, padding:'10px 12px', fontSize:13 };
+const td = { 
+  borderBottom:`1px solid ${theme.border}`, 
+  padding:'12px 16px', 
+  fontSize:13,
+  color: theme.text
+};
 const tdSmall = { ...td, textAlign:'right', whiteSpace:'nowrap' };
